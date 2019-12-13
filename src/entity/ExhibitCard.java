@@ -6,11 +6,11 @@ import java.util.Objects;
 public class ExhibitCard {
     private String fund;
     private String name;
-    private long id;
+    private String id;
     private Date creationDate;
     private String dateAccuracy;
 
-    public ExhibitCard(String fund, String name, long id, Date creationDate, String dateAccuracy) {
+    public ExhibitCard(String fund, String name, String id, Date creationDate, String dateAccuracy) {
         this.fund = fund;
         this.name = name;
         this.id = id;
@@ -37,11 +37,11 @@ public class ExhibitCard {
         this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -79,7 +79,7 @@ public class ExhibitCard {
             return this;
         }
 
-        public Builder withID(long id) {
+        public Builder withID(String id) {
             newCard.id = id;
             return this;
         }

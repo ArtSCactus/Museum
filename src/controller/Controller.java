@@ -1,5 +1,6 @@
-package sample;
+package controller;
 
+import database.Database;
 import exceptions.DriverNotFoundException;
 
 import java.sql.Connection;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Controller {
-    private Storage database;
+    private Database database;
     private String url;
     private String username;
     private String password;
@@ -18,14 +19,14 @@ public class Controller {
         this.url = url;
         this.username = username;
         this.password = password;
-        database = new Storage();
+        database = new Database();
     }
 
     public Controller() {
-        url = "jdbc:postgresql://127.0.0.1:5432/Zoo";
+        url = "jdbc:postgresql://127.0.0.1:5432/postgres";
         username = "postgres";
         password = "root";
-        database = new Storage();
+        database = new Database();
     }
 
 
@@ -100,6 +101,14 @@ public class Controller {
 
     public void executePreparedUpdateForDate(String statementLine, List<Date> values) throws SQLException {
         database.executePreparedUpdateForDate(statementLine, values);
+    }
+
+    public ResultSet executePreparedRequest(String statementRow, List<String> args) throws SQLException {
+       return database.executePreparedRequest(statementRow, args);
+    }
+
+    public ResultSet executePreparedRequest(String statementRow) throws SQLException{
+        return database.executePreparedRequest(statementRow);
     }
 
     public void executeDelete(String statement) throws SQLException {

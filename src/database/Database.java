@@ -1,11 +1,11 @@
-package sample;
+package database;
 
 import exceptions.DriverNotFoundException;
 
 import java.sql.*;
 import java.util.List;
 
-public class Storage {
+public class Database {
     private Connection connection;
     private ResultSet currentLocalData;
     private String lastRequest;
@@ -13,27 +13,25 @@ public class Storage {
     private String lastInsert;
     private String lastRemove;
 
-    public Storage() {
+    public Database() {
     }
 
-    public Storage(Connection connection) throws DriverNotFoundException {
+    public Database(Connection connection) throws DriverNotFoundException {
         checkDriver();
         this.connection = connection;
         currentLocalData = null;
     }
 
-    public Storage(String url, String username, String password) throws SQLException, DriverNotFoundException {
+    public Database(String url, String username, String password) throws SQLException, DriverNotFoundException {
         checkDriver();
         connection = DriverManager.getConnection(url, username, password);
     }
 
-    public ResultSet getCurrentLocalData()
-    {
+    public ResultSet getCurrentLocalData() {
         return currentLocalData;
     }
 
-    public void setCurrentLocalData(ResultSet currentLocalData)
-    {
+    public void setCurrentLocalData(ResultSet currentLocalData) {
         this.currentLocalData = currentLocalData;
     }
 
@@ -102,6 +100,7 @@ public class Storage {
         currentLocalData = result;
         return result;
     }
+
     /**
      * Executes request, without saving last ResultSet and statementRow.
      *
@@ -116,42 +115,59 @@ public class Storage {
         if (connection.isClosed()) {
             // here will be DatabaseConnectionException
         }
-       try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE)) {
-           return statement.executeQuery(statementRow);
-       }
+            return statement.executeQuery(statementRow);
+        }
     }
 
-    public ResultSet executePreparedAnonymousRequest(String statementRow, List<String> values) throws SQLException{
+    public ResultSet executePreparedAnonymousRequest(String statementRow, List<String> values) throws SQLException {
         if (statementRow == null) {
             throw new NullPointerException("Cannot execute null statement");
         }
         if (connection.isClosed()) {
             // here will be DatabaseConnectionException
         }
-        PreparedStatement statement = connection.prepareStatement(statementRow,ResultSet.TYPE_SCROLL_SENSITIVE,
+        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-            for(int index=0; index<values.size(); index++){
-                statement.setString(index+1, values.get(index));
-            }
-            return statement.executeQuery();
-
-    }
-
-    public ResultSet executePreparedAnonymousRequestForDate(String statementRow, List<Date> values) throws SQLException{
-        if (statementRow == null) {
-            throw new NullPointerException("Cannot execute null statement");
-        }
-        if (connection.isClosed()) {
-            // here will be DatabaseConnectionException
-        }
-        PreparedStatement statement = connection.prepareStatement(statementRow,ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-        for(int index=0; index<values.size(); index++){
-            statement.setDate(index+1, values.get(index));
+        for (int index = 0; index < values.size(); index++) {
+            statement.setString(index + 1, values.get(index));
         }
         return statement.executeQuery();
 
+    }
+
+    public ResultSet executePreparedAnonymousRequestForDate(String statementRow, List<Date> values) throws SQLException {
+        if (statementRow == null) {
+            throw new NullPointerException("Cannot execute null statement");
+        }
+        if (connection.isClosed()) {
+            // here will be DatabaseConnectionException
+        }
+        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        for (int index = 0; index < values.size(); index++) {
+            statement.setDate(index + 1, values.get(index));
+        }
+        return statement.executeQuery();
+    }
+
+    public ResultSet executePreparedRequest(String statementRow, List<String> args) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+
+        for (int index = 0; index < args.size(); index++) {
+            statement.setString(index + 1, args.get(index));
+        }
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet;
+    }
+
+    public ResultSet executePreparedRequest (String statementRow) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet;
     }
 
     /**
@@ -176,36 +192,36 @@ public class Storage {
     }
 
     public int executePreparedUpdate(String updateRequest, List<String> array) throws SQLException {
-        if (updateRequest==null){
+        if (updateRequest == null) {
             throw new NullPointerException("Cannot execute null statement");
         }
         if (connection.isClosed()) {
             // here will be DatabaseConnectionException
         }
-        try(PreparedStatement statement=connection.prepareStatement(updateRequest)){
-            for(int index=0; index<array.size(); index++){
-                statement.setString(index+1, array.get(index));
+        try (PreparedStatement statement = connection.prepareStatement(updateRequest)) {
+            for (int index = 0; index < array.size(); index++) {
+                statement.setString(index + 1, array.get(index));
             }
             return statement.executeUpdate();
         }
     }
 
     public int executePreparedUpdateForDate(String updateRequest, List<Date> array) throws SQLException {
-        if (updateRequest==null){
+        if (updateRequest == null) {
             throw new NullPointerException("Cannot execute null statement");
         }
         if (connection.isClosed()) {
             // here will be DatabaseConnectionException
         }
-        try(PreparedStatement statement=connection.prepareStatement(updateRequest)){
-            for(int index=0; index<array.size(); index++){
-                statement.setDate(index+1, array.get(index));
+        try (PreparedStatement statement = connection.prepareStatement(updateRequest)) {
+            for (int index = 0; index < array.size(); index++) {
+                statement.setDate(index + 1, array.get(index));
             }
             return statement.executeUpdate();
         }
     }
 
-//TODO: добавить в execute PreparedStatement
+    //TODO: добавить в execute PreparedStatement
     public void executeInsert(String statementRow) throws SQLException {
         if (statementRow == null) {
             throw new NullPointerException("Cannot execute null statement");
@@ -217,19 +233,19 @@ public class Storage {
         Statement statement = connection.createStatement();
         statement.execute(statementRow);
         statement.close();
-        }
+    }
 
-        public void executeRemove(String statementRow) throws SQLException {
-        if (statementRow == null){
+    public void executeRemove(String statementRow) throws SQLException {
+        if (statementRow == null) {
             throw new NullPointerException("Cannot execute null statement");
         }
-        if (connection.isClosed()){
+        if (connection.isClosed()) {
             // here will be DatabaseConnectionException
         }
-            lastRemove = statementRow;
-            Statement statement = connection.createStatement();
-            statement.execute(statementRow);
-            statement.close();
-        }
+        lastRemove = statementRow;
+        Statement statement = connection.createStatement();
+        statement.execute(statementRow);
+        statement.close();
+    }
 
 }

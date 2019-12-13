@@ -1,28 +1,30 @@
 package view;
 
+import entity.Author;
 import entity.ExhibitCard;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import exceptions.DriverNotFoundException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import controller.Controller;
+import util.ResultSetConverter;
 import view.enums.UIPlacement;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MainWindowUI {
     private TableComponent tableComponent;
     private MenuBarComponent toolBar;
+    private Controller controller;
     private Stage primaryStage;
     private BorderPane pane;
     private Scene scene;
 
     public MainWindowUI() {
         tableComponent = new TableComponent();
+        controller = new Controller();
         primaryStage = new Stage();
         pane = new BorderPane();
         toolBar = new MenuBarComponent();
@@ -31,33 +33,29 @@ public class MainWindowUI {
 
     public MainWindowUI(int width, int height) {
         tableComponent = new TableComponent();
+        controller = new Controller();
         toolBar = new MenuBarComponent();
         primaryStage = new Stage();
         pane = new BorderPane();
         scene = new Scene(pane, width, height);
     }
 
-    public void show() {
+    public void run() throws SQLException {
+        try {
+            controller.connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DriverNotFoundException e) {
+            e.printStackTrace();
+        }
+
         primaryStage.setScene(scene);
         placeComponent(tableComponent.getTable(), UIPlacement.CENTER);
         placeComponent(toolBar.getBar(), UIPlacement.TOP);
-        List<ExhibitCard> cards = new ArrayList<>();
-        cards.add(new ExhibitCard.Builder()
-                .withName("Name")
-                .withCreationDate(Date.valueOf(LocalDate.now()))
-                .withFund("fund")
-                .withID(1)
-                .withDateAccuracy("Date is accurate")
-                .build()
-        );
-        System.out.println(Date.valueOf(LocalDate.now()).toString());
-        ObservableList<ExhibitCard> list = FXCollections.observableList(cards);
-        tableComponent.createAndInitColumn("Name", "NAmE");
-        tableComponent.createAndInitColumn("Creation date", "creation date");
-        tableComponent.createAndInitColumn("Fund", "fund");
-        tableComponent.createAndInitColumn("ID", "id");
-        tableComponent.createAndInitColumn("Date accuracy", "date accuracy");
-        tableComponent.setData(list);
+        List<ExhibitCard> cards = ResultSetConverter.toExhibitCards(controller.executeRequest("select * from exhibits"));
+        tableComponent.showExhibits(cards);
+        List<Author> authors = ResultSetConverter.toAuthors(controller.executeRequest("select * from authors"));
+        tableComponent.showAuthors(authors);
         primaryStage.showAndWait();
     }
 
