@@ -1,8 +1,6 @@
 package util;
 
-import entity.Author;
-import entity.ExhibitCard;
-import entity.Exposition;
+import entity.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,5 +57,43 @@ public class ResultSetConverter {
         }
         resultSet.close();
         return expositions;
+    }
+
+    public static List<Fund> toFunds(ResultSet resultSet) throws SQLException {
+        List<Fund> funds =new ArrayList<>();
+        while(resultSet.next()){
+            funds.add(new Fund(resultSet.getString(1), resultSet.getString(2)));
+        }
+        return funds;
+    }
+
+    public static List<Transfer> toInternalTransfers(ResultSet resultSet) throws SQLException {
+        List<Transfer> transfers =new ArrayList<>();
+        while (resultSet.next()){
+            Transfer currentTransfer = new Transfer.Builder()
+                    .withNumber(resultSet.getString(1))
+                    .withAction(resultSet.getString(2))
+                    .withFundTakeFrom(resultSet.getString(3))
+                    .withFundPlacedIn(resultSet.getString(4))
+                    .withStartDate(resultSet.getDate(5))
+                    .build();
+            transfers.add(currentTransfer);
+        }
+        return transfers;
+    }
+
+    public static List<Transfer> toExternalTransfers(ResultSet resultSet) throws SQLException {
+        List<Transfer> transfers = new ArrayList<>();
+        while (resultSet.next()) {
+            Transfer currentTransfer = new Transfer.Builder()
+                    .withNumber(resultSet.getString(1))
+                    .withAction(resultSet.getString(2))
+                    .withExpositionNumber(resultSet.getString(3))
+                    .withStartDate(resultSet.getDate(4))
+                    .withEndDate(resultSet.getDate(5))
+                    .build();
+            transfers.add(currentTransfer);
+        }
+        return transfers;
     }
 }

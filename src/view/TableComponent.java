@@ -1,8 +1,6 @@
 package view;
 
-import entity.Author;
-import entity.ExhibitCard;
-import entity.Exposition;
+import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -80,4 +78,34 @@ public class TableComponent {
         createAndInitColumn("Date of end", "end date");
         setData(list);
     }
+
+    public void showFunds(List<Fund> funds){
+        table.getColumns().clear();
+        ObservableList<Fund> list = FXCollections.observableList(funds);
+        createAndInitColumn("Name", "name");
+        createAndInitColumn("Card/Set number", "card or set number");
+        setData(list);
+    }
+
+    public void showExternalTransfers(List<Transfer> transfers){
+        table.getColumns().clear();
+        ObservableList<Transfer> list = FXCollections.observableList(transfers);
+        createAndInitColumn("Number","number");
+        createAndInitColumn("Action","action");
+        createAndInitColumn("Exposition number","exposition number");
+        createAndInitColumn("Date of start", "start date");
+        createAndInitColumn("Date of end", "end date");
+        setData(list);
+    }
+    public void showInternalTransfers(List<Transfer> transfers){
+        table.getColumns().clear();
+        ObservableList<Transfer> list = FXCollections.observableList(transfers);
+        createAndInitColumn("Number","number");
+        createAndInitColumn("Action","action");
+        createAndInitColumn("Taken from","fund take from");
+        createAndInitColumn("Placed in", "fund placed in");
+        createAndInitColumn("Date", "start date");
+        setData(list);
+    }
+
 }

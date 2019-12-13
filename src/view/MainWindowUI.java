@@ -27,14 +27,14 @@ public class MainWindowUI {
         controller = new Controller();
         primaryStage = new Stage();
         pane = new BorderPane();
-        toolBar = new MenuBarComponent();
+        toolBar = new MenuBarComponent(tableComponent, controller);
         scene = new Scene(pane, 500, 500);
     }
 
     public MainWindowUI(int width, int height) {
         tableComponent = new TableComponent();
         controller = new Controller();
-        toolBar = new MenuBarComponent();
+        toolBar = new MenuBarComponent(tableComponent, controller);
         primaryStage = new Stage();
         pane = new BorderPane();
         scene = new Scene(pane, width, height);
