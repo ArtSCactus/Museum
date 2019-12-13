@@ -2,6 +2,7 @@ package view;
 
 import entity.Author;
 import entity.ExhibitCard;
+import entity.Exposition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -64,6 +65,19 @@ public class TableComponent {
         createAndInitColumn("Second name", "Second name");
         createAndInitColumn("Third name", "Third name");
         createAndInitColumn("Country", "country");
+        setData(list);
+    }
+
+    public void showExpositions(List<Exposition> expositions){
+        table.getColumns().clear();
+        ObservableList<Exposition> list = FXCollections.observableList(expositions);
+        createAndInitColumn("Number", "Number");
+        createAndInitColumn("Name", "Name");
+        createAndInitColumn("Address", "Address");
+        createAndInitColumn("Contact person", "contact person");
+        createAndInitColumn("Phone number", "phone number");
+        createAndInitColumn("Date of start ", "start date");
+        createAndInitColumn("Date of end", "end date");
         setData(list);
     }
 }

@@ -43,19 +43,20 @@ public class MainWindowUI {
     public void run() throws SQLException {
         try {
             controller.connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (DriverNotFoundException e) {
+        } catch (SQLException | DriverNotFoundException e) {
             e.printStackTrace();
         }
 
         primaryStage.setScene(scene);
         placeComponent(tableComponent.getTable(), UIPlacement.CENTER);
         placeComponent(toolBar.getBar(), UIPlacement.TOP);
-        List<ExhibitCard> cards = ResultSetConverter.toExhibitCards(controller.executeRequest("select * from exhibits"));
+        List<ExhibitCard> cards = ResultSetConverter.toExhibitCards(
+                controller.executePreparedRequest("select * from exhibits"));
         tableComponent.showExhibits(cards);
-        List<Author> authors = ResultSetConverter.toAuthors(controller.executeRequest("select * from authors"));
+        List<Author> authors = ResultSetConverter.toAuthors(
+                controller.executePreparedRequest("select * from authors"));
         tableComponent.showAuthors(authors);
+
         primaryStage.showAndWait();
     }
 
