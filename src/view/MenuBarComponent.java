@@ -120,7 +120,7 @@ public class MenuBarComponent {
             }
             table.showInternalTransfers(transfers);
         });
-        MenuItem viewExternalTransfers = new MenuItem();
+        MenuItem viewExternalTransfers = new MenuItem("External transfers");
         viewExternalTransfers.setOnAction(event -> {
             List<Transfer> transfers = null;
             try {
@@ -141,7 +141,7 @@ public class MenuBarComponent {
             table.showFunds(funds);
         });
         viewMenu.getItems().addAll(viewExhibitItem, viewExpositionItem, viewAuthorItem, viewInternalTransfers,
-                viewFundsItem);
+                viewExternalTransfers, viewFundsItem);
     }
 
 }
