@@ -1,5 +1,7 @@
 package sample;
 
+import exceptions.DriverNotFoundException;
+
 import java.sql.*;
 import java.util.List;
 

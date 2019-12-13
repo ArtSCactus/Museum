@@ -1,5 +1,7 @@
 package sample;
 
+import exceptions.DriverNotFoundException;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;

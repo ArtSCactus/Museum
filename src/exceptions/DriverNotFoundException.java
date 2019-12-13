@@ -1,4 +1,4 @@
-package sample;
+package exceptions;
 
 public class DriverNotFoundException extends Exception{
     private String message;
