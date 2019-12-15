@@ -80,7 +80,7 @@ public class Controller {
         return database.executeUpdate(statementLine);
     }
 
-    public int executePreparedUpdate(String statement, List<String> arguments) throws SQLException {
+    public int executePreparedUpdate(String statement, List<Object> arguments) throws SQLException {
         return database.executePreparedUpdate(statement, arguments);
     }
 

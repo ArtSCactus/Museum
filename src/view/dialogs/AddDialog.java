@@ -18,9 +18,9 @@ public class AddDialog {
         Scene scene = new Scene(pane, 425, 225);
         Stage stage = new Stage();
         stage.setMaxWidth(425);
-        stage.setMaxHeight(225);
+        stage.setMaxHeight(260);
         stage.setMinWidth(425);
-        stage.setMaxHeight(225);
+        stage.setMaxHeight(260);
         Label exhibitCodeLabel = new Label("Code number:");
         TextField exhibitCode = new TextField();
         exhibitCode.setPromptText("Enter code here");

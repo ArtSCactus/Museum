@@ -140,7 +140,7 @@ public class Database {
     }
 
 
-    public int executePreparedUpdate(String updateRequest, List<String> array) throws SQLException {
+    public int executePreparedUpdate(String updateRequest, List<Object> args) throws SQLException {
         if (updateRequest == null) {
             throw new NullPointerException("Cannot execute null statement");
         }
@@ -148,9 +148,20 @@ public class Database {
             // here will be DatabaseConnectionException
         }
         try (PreparedStatement statement = connection.prepareStatement(updateRequest)) {
-            for (int index = 0; index < array.size(); index++) {
-                statement.setString(index + 1, array.get(index));
+            int statementIndex=1;
+            for (int index = 0; index < args.size(); index++) {
+                if (args.get(index) != null) {
+                    if (args.get(index).getClass().getName().equals(Date.class.getName())) {
+                        Date date = (Date) args.get(index);
+                        statement.setDate(statementIndex++, date);
+                    } else {
+                        statement.setString(statementIndex++, (String) args.get(index));
+                    }
+                } else {
+
+                }
             }
+            System.out.println(statement.toString());
             return statement.executeUpdate();
         }
     }

@@ -16,6 +16,7 @@ public class ResultSetConverter {
                     .withName(resultSet.getString(2))
                     .withCreationDate(resultSet.getDate(3))
                     .withDateAccuracy(resultSet.getString(4))
+                    .withAuthorCode(resultSet.getString(5))
                     .build();
             cards.add(currentCard);
         }

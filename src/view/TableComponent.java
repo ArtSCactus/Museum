@@ -52,6 +52,7 @@ public class TableComponent {
         createAndInitColumn("Creation date", "creation date");
         createAndInitColumn("ID", "id");
         createAndInitColumn("Date accuracy", "date accuracy");
+        createAndInitColumn("Author", "author code");
         setData(list);
     }
 

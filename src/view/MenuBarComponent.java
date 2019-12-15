@@ -8,6 +8,7 @@ import javafx.scene.control.MenuItem;
 import util.ResultSetConverter;
 import view.TableComponent;
 import view.dialogs.AddDialog;
+import view.dialogs.EditDialog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -71,6 +72,9 @@ public class MenuBarComponent {
 
     private void initEditMenu() {
         MenuItem editExhibitItem = new MenuItem("Exhibit");
+        editExhibitItem.setOnAction(event ->{
+            new EditDialog().showEditDialog(controller);
+        });
         MenuItem editExpositionItem = new MenuItem("Exposition");
         MenuItem editAuthorItem = new MenuItem("Author");
         editMenu.getItems().addAll(editExhibitItem, editExpositionItem, editAuthorItem);
