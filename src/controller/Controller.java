@@ -75,17 +75,6 @@ public class Controller {
         return database.executeRequest(request);
     }
 
-    public ResultSet executeAnonymousRequest(String statementRow) throws SQLException {
-        return database.executeAnonymousRequest(statementRow);
-    }
-
-    public ResultSet executePreparedAnonymousRequest(String statementRow, List<String> values) throws SQLException {
-        return database.executePreparedAnonymousRequest(statementRow, values);
-    }
-
-    public ResultSet executePreparedAnonymousRequestForDate(String statementRow, List<Date> values) throws SQLException {
-        return database.executePreparedAnonymousRequestForDate(statementRow, values);
-    }
 
     public int executeUpdate(String statementLine) throws SQLException {
         return database.executeUpdate(statementLine);
@@ -97,6 +86,10 @@ public class Controller {
 
     public void executeInsert(String statementLine) throws SQLException {
         database.executeInsert(statementLine);
+    }
+
+    public void executePreparedInsert(String statementLine, List<Object> args) throws SQLException {
+        database.executePreparedInsert(statementLine, args);
     }
 
     public void executePreparedUpdateForDate(String statementLine, List<Date> values) throws SQLException {

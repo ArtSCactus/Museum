@@ -10,14 +10,14 @@ import java.util.List;
 public class ResultSetConverter {
     public static List<ExhibitCard> toExhibitCards(ResultSet resultSet) throws SQLException {
         List<ExhibitCard> cards = new ArrayList<>();
-        while(resultSet.next()){
-         ExhibitCard currentCard = new ExhibitCard.Builder()
-                 .withID(resultSet.getString(1))
-                 .withName(resultSet.getString(2))
-                 .withCreationDate(resultSet.getDate(3))
-                 .withDateAccuracy(resultSet.getString(4))
-                 .build();
-         cards.add(currentCard);
+        while (resultSet.next()) {
+            ExhibitCard currentCard = new ExhibitCard.Builder()
+                    .withID(resultSet.getString(1))
+                    .withName(resultSet.getString(2))
+                    .withCreationDate(resultSet.getDate(3))
+                    .withDateAccuracy(resultSet.getString(4))
+                    .build();
+            cards.add(currentCard);
         }
         resultSet.close();
         return cards;
@@ -25,7 +25,7 @@ public class ResultSetConverter {
 
     public static List<Author> toAuthors(ResultSet resultSet) throws SQLException {
         List<Author> authors = new ArrayList<>();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             Author currentAuthor = new Author.Builder()
                     .withNumber(resultSet.getString(1))
                     .withFirstName(resultSet.getString(2))
@@ -43,7 +43,7 @@ public class ResultSetConverter {
 
     public static List<Exposition> toExpositions(ResultSet resultSet) throws SQLException {
         List<Exposition> expositions = new ArrayList<>();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             Exposition currentExposition = new Exposition.Builder()
                     .withPhoneNumber(resultSet.getString(1))
                     .withNumber(resultSet.getString(2))
@@ -60,16 +60,16 @@ public class ResultSetConverter {
     }
 
     public static List<Fund> toFunds(ResultSet resultSet) throws SQLException {
-        List<Fund> funds =new ArrayList<>();
-        while(resultSet.next()){
+        List<Fund> funds = new ArrayList<>();
+        while (resultSet.next()) {
             funds.add(new Fund(resultSet.getString(1), resultSet.getString(2)));
         }
         return funds;
     }
 
     public static List<Transfer> toInternalTransfers(ResultSet resultSet) throws SQLException {
-        List<Transfer> transfers =new ArrayList<>();
-        while (resultSet.next()){
+        List<Transfer> transfers = new ArrayList<>();
+        while (resultSet.next()) {
             Transfer currentTransfer = new Transfer.Builder()
                     .withNumber(resultSet.getString(1))
                     .withAction(resultSet.getString(2))

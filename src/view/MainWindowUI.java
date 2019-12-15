@@ -28,7 +28,7 @@ public class MainWindowUI {
         primaryStage = new Stage();
         pane = new BorderPane();
         toolBar = new MenuBarComponent(tableComponent, controller);
-        scene = new Scene(pane, 500, 500);
+        scene = new Scene(pane, 700, 500);
     }
 
     public MainWindowUI(int width, int height) {
@@ -58,6 +58,7 @@ public class MainWindowUI {
         tableComponent.showAuthors(authors);
 
         primaryStage.showAndWait();
+        controller.disconnect();
     }
 
     public void placeComponent(Node component, UIPlacement position) {

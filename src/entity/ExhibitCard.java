@@ -9,13 +9,15 @@ public class ExhibitCard {
     private String id;
     private Date creationDate;
     private String dateAccuracy;
+    private String authorCode;
 
-    public ExhibitCard(String fund, String name, String id, Date creationDate, String dateAccuracy) {
+    public ExhibitCard(String fund, String name, String id, Date creationDate, String dateAccuracy, String authorCode) {
         this.fund = fund;
         this.name = name;
         this.id = id;
         this.creationDate = creationDate;
         this.dateAccuracy = dateAccuracy;
+        this.authorCode = authorCode;
     }
 
     private ExhibitCard() {
@@ -62,6 +64,14 @@ public class ExhibitCard {
         this.dateAccuracy = dateAccuracy;
     }
 
+    public String getAuthorCode() {
+        return authorCode;
+    }
+
+    public void setAuthorCode(String authorCode) {
+        this.authorCode = authorCode;
+    }
+
     public static class Builder {
         private ExhibitCard newCard;
 
@@ -94,6 +104,11 @@ public class ExhibitCard {
             return this;
         }
 
+        public Builder withAuthorCode(String authorCode){
+            newCard.authorCode=authorCode;
+            return this;
+        }
+
         public ExhibitCard build() {
             return newCard;
         }
@@ -104,16 +119,17 @@ public class ExhibitCard {
         if (this == o) return true;
         if (!(o instanceof ExhibitCard)) return false;
         ExhibitCard that = (ExhibitCard) o;
-        return getId() == that.getId() &&
-                getFund().equals(that.getFund()) &&
-                getName().equals(that.getName()) &&
-                getCreationDate().equals(that.getCreationDate()) &&
-                getDateAccuracy().equals(that.getDateAccuracy());
+        return Objects.equals(getFund(), that.getFund()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getCreationDate(), that.getCreationDate()) &&
+                Objects.equals(getDateAccuracy(), that.getDateAccuracy()) &&
+                Objects.equals(getAuthorCode(), that.getAuthorCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFund(), getName(), getId(), getCreationDate(), getDateAccuracy());
+        return Objects.hash(getFund(), getName(), getId(), getCreationDate(), getDateAccuracy(), getAuthorCode());
     }
 
     @Override
@@ -121,9 +137,10 @@ public class ExhibitCard {
         return "ExhibitCard{" +
                 "fund='" + fund + '\'' +
                 ", name='" + name + '\'' +
-                ", id=" + id +
+                ", id='" + id + '\'' +
                 ", creationDate=" + creationDate +
-                ", isDateAccurate=" + dateAccuracy +
+                ", dateAccuracy='" + dateAccuracy + '\'' +
+                ", authorCode='" + authorCode + '\'' +
                 '}';
     }
 }

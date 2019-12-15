@@ -31,10 +31,6 @@ public class Database {
         return currentLocalData;
     }
 
-    public void setCurrentLocalData(ResultSet currentLocalData) {
-        this.currentLocalData = currentLocalData;
-    }
-
     public String getLastRequest() {
         return lastRequest;
     }
@@ -50,6 +46,7 @@ public class Database {
             throw new DriverNotFoundException("SQL driver not found.");
         }
     }
+
 
     public void connect(String url, String username, String password) throws SQLException, DriverNotFoundException {
         checkDriver();
@@ -101,56 +98,7 @@ public class Database {
         return result;
     }
 
-    /**
-     * Executes request, without saving last ResultSet and statementRow.
-     *
-     * @param statementRow sql request
-     * @return ResultSet
-     * @throws SQLException
-     */
-    public ResultSet executeAnonymousRequest(String statementRow) throws SQLException {
-        if (statementRow == null) {
-            throw new NullPointerException("Cannot execute null statement");
-        }
-        if (connection.isClosed()) {
-            // here will be DatabaseConnectionException
-        }
-        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE)) {
-            return statement.executeQuery(statementRow);
-        }
-    }
 
-    public ResultSet executePreparedAnonymousRequest(String statementRow, List<String> values) throws SQLException {
-        if (statementRow == null) {
-            throw new NullPointerException("Cannot execute null statement");
-        }
-        if (connection.isClosed()) {
-            // here will be DatabaseConnectionException
-        }
-        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-        for (int index = 0; index < values.size(); index++) {
-            statement.setString(index + 1, values.get(index));
-        }
-        return statement.executeQuery();
-
-    }
-
-    public ResultSet executePreparedAnonymousRequestForDate(String statementRow, List<Date> values) throws SQLException {
-        if (statementRow == null) {
-            throw new NullPointerException("Cannot execute null statement");
-        }
-        if (connection.isClosed()) {
-            // here will be DatabaseConnectionException
-        }
-        PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-        for (int index = 0; index < values.size(); index++) {
-            statement.setDate(index + 1, values.get(index));
-        }
-        return statement.executeQuery();
-    }
 
     public ResultSet executePreparedRequest(String statementRow, List<String> args) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -190,6 +138,7 @@ public class Database {
             return statement.executeUpdate(statementRow);
         }
     }
+
 
     public int executePreparedUpdate(String updateRequest, List<String> array) throws SQLException {
         if (updateRequest == null) {
@@ -233,6 +182,32 @@ public class Database {
         Statement statement = connection.createStatement();
         statement.execute(statementRow);
         statement.close();
+    }
+
+    public void executePreparedInsert(String statementRow, List<Object> args) throws SQLException {
+        if (statementRow == null){
+            throw new NullPointerException("Cannot execute null statement");
+        }
+        if (connection.isClosed()) {
+            // here will be DatabaseConnectionException
+        }
+
+       try( PreparedStatement statement = connection.prepareStatement(statementRow)) {
+           int statementIndex=1;
+           for (int index = 0; index < args.size(); index++, statementIndex++) {
+               if (args.get(index) == null) {
+                   statementIndex--;
+               } else {
+                   if (args.get(index).getClass().getName().equals(Date.class.getName())) {
+                       Date date = (Date) args.get(index);
+                       statement.setDate(statementIndex, date);
+                   } else {
+                       statement.setString(statementIndex, (String) args.get(index));
+                   }
+               }
+           }
+           statement.execute();
+       }
     }
 
     public void executeRemove(String statementRow) throws SQLException {

@@ -6,6 +6,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import util.ResultSetConverter;
+import view.TableComponent;
+import view.dialogs.AddDialog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +31,6 @@ public class MenuBarComponent {
         this.controller = controller;
         initMenuBar();
     }
-
     public MenuBarComponent(MenuBar bar) {
         this.bar = bar;
     }
@@ -60,6 +61,9 @@ public class MenuBarComponent {
 
     private void initAddMenu() {
         MenuItem addExhibitItem = new MenuItem("Exhibit");
+        addExhibitItem.setOnAction(event -> {
+            new AddDialog().showAddExhibitDialog(controller);
+        });
         MenuItem addExpositionItem = new MenuItem("Exposition");
         MenuItem addAuthorItem = new MenuItem("Author");
         addMenu.getItems().addAll(addExhibitItem, addExpositionItem, addAuthorItem);
