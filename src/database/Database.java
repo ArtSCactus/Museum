@@ -234,4 +234,30 @@ public class Database {
         statement.close();
     }
 
+    public void executePreparedStatement(String statementRow, List<Object> args) throws SQLException {
+        if (statementRow == null){
+            throw new NullPointerException("Cannot execute null statement");
+        }
+        if (connection.isClosed()) {
+            // here will be DatabaseConnectionException
+        }
+
+        try( PreparedStatement statement = connection.prepareStatement(statementRow)) {
+            int statementIndex=1;
+            for (int index = 0; index < args.size(); index++, statementIndex++) {
+                if (args.get(index) == null) {
+                    statementIndex--;
+                } else {
+                    if (args.get(index).getClass().getName().equals(Date.class.getName())) {
+                        Date date = (Date) args.get(index);
+                        statement.setDate(statementIndex, date);
+                    } else {
+                        statement.setString(statementIndex, (String) args.get(index));
+                    }
+                }
+            }
+            statement.execute();
+        }
+    }
+
 }

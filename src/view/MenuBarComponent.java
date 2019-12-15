@@ -8,6 +8,7 @@ import javafx.scene.control.MenuItem;
 import util.ResultSetConverter;
 import view.TableComponent;
 import view.dialogs.AddDialog;
+import view.dialogs.DeleteDialog;
 import view.dialogs.EditDialog;
 
 import java.sql.SQLException;
@@ -82,6 +83,9 @@ public class MenuBarComponent {
 
     private void initRemoveMenu() {
         MenuItem removeExhibitItem = new MenuItem("Exhibit");
+        removeExhibitItem.setOnAction(event -> {
+            DeleteDialog.showDeleteDialog(controller);
+        });
         MenuItem removeExpositionItem = new MenuItem("Exposition");
         MenuItem removeAuthorItem = new MenuItem("Author");
         deleteMenu.getItems().addAll(removeExhibitItem, removeExpositionItem, removeAuthorItem);

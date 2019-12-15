@@ -108,6 +108,10 @@ public class Controller {
         database.executeRemove(statement);
     }
 
+    public void executePreparedStatement(String statement, List<Object> args) throws SQLException {
+        database.executePreparedStatement(statement, args);
+    }
+
     public Connection getConnection() {
         return database.getConnection();
     }

@@ -20,7 +20,9 @@ public class RequestConverter {
 
     public static Request exhibitToUpdate(ExhibitCard oldValue, ExhibitCard newValue){
         String statement =
-                "update exhibits set number = ?, name = ?, creation_date = ?, date_accuracy = ?, author = ? where number = ? and name = ? and creation_date = ? and date_accuracy = ? and author = ?";
+                "update exhibits set number = ?, name = ?, creation_date = ?, " +
+                        "date_accuracy = ?, author = ? where number = ? and name = ? and creation_date = ? " +
+                        "and date_accuracy = ? and author = ?";
         List<Object> args = new ArrayList<>();
         args.addAll(Arrays.asList(newValue.getId(), newValue.getName(),
                 newValue.getCreationDate(),
@@ -28,6 +30,17 @@ public class RequestConverter {
         args.addAll(Arrays.asList(oldValue.getId(), oldValue.getName(),
                 oldValue.getCreationDate(),
                 oldValue.getDateAccuracy(), oldValue.getAuthorCode()));
+        return new Request(statement, args);
+    }
+
+    public static Request exhibitToDelete(ExhibitCard obj){
+        String statement =
+                "delete from exhibits " +
+                        "where number = ? and name = ? and creation_date = ? and date_accuracy = ? and author = ?";
+        List<Object> args = new ArrayList<>();
+        args.addAll(Arrays.asList(obj.getId(), obj.getName(),
+                obj.getCreationDate(),
+               obj.getDateAccuracy(), obj.getAuthorCode()));
         return new Request(statement, args);
     }
 }
