@@ -100,6 +100,10 @@ public class Controller {
        return database.executePreparedRequest(statementRow, args);
     }
 
+    public ResultSet executePreparedRequestForColumn(String statementRow, List<Object> args) throws SQLException {
+        return database.executePreparedRequestForColumn(statementRow, args);
+    }
+
     public ResultSet executePreparedRequest(String statementRow) throws SQLException{
         return database.executePreparedRequest(statementRow);
     }

@@ -6,21 +6,21 @@ import java.util.Objects;
 public class Transfer {
     private String number;
     private String action;
-    private Date startDate;
-    private Date endDate;
+    private Date date;
     private String expositionNumber;
     private String fundTakeFrom;
-    private String fundPlaceIn;
+    private String fundPlacedIn;
+    private String setNumber;
 
-    public Transfer(String number, String action, Date startDate, Date endDate, String expositionNumber,
-                    String fundTakeFrom, String fundPlaceIn) {
+    public Transfer(String number, String action, Date date, String expositionNumber,
+                    String fundTakeFrom, String fundPlacedIn, String setNumber) {
         this.number = number;
         this.action = action;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.date = date;
         this.expositionNumber = expositionNumber;
         this.fundTakeFrom = fundTakeFrom;
-        this.fundPlaceIn = fundPlaceIn;
+        this.fundPlacedIn = fundPlacedIn;
+        this.setNumber = setNumber;
     }
 
     private Transfer() {
@@ -42,20 +42,12 @@ public class Transfer {
         this.action = action;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getExpositionNumber() {
@@ -74,12 +66,20 @@ public class Transfer {
         this.fundTakeFrom = fundTakeFrom;
     }
 
-    public String getFundPlaceIn() {
-        return fundPlaceIn;
+    public String getFundPlacedIn() {
+        return fundPlacedIn;
     }
 
-    public void setFundPlaceIn(String fundPlaceIn) {
-        this.fundPlaceIn = fundPlaceIn;
+    public void setFundPlacedIn(String fundPlacedIn) {
+        this.fundPlacedIn = fundPlacedIn;
+    }
+
+    public void setSetNumber(String setNumber) {
+        this.setNumber = setNumber;
+    }
+
+    public String getSetNumber() {
+        return setNumber;
     }
 
     public static class Builder {
@@ -99,28 +99,29 @@ public class Transfer {
             return this;
         }
 
-        public Builder withStartDate(Date startDate) {
-            newTransfer.startDate = startDate;
+        public Builder withDate(Date date) {
+            newTransfer.date = date;
             return this;
         }
 
-        public Builder withEndDate(Date endDate){
-            newTransfer.endDate = endDate;
-            return this;
-        }
 
         public Builder withExpositionNumber(String number) {
             newTransfer.expositionNumber = number;
             return this;
         }
 
-        public Builder withFundTakeFrom(String fundNumber){
-            newTransfer.fundTakeFrom =fundNumber;
-            return  this;
+        public Builder withFundTakeFrom(String fundNumber) {
+            newTransfer.fundTakeFrom = fundNumber;
+            return this;
         }
 
-        public Builder withFundPlacedIn(String fundNumber){
-            newTransfer.fundPlaceIn = fundNumber;
+        public Builder withFundPlacedIn(String fundNumber) {
+            newTransfer.fundPlacedIn = fundNumber;
+            return this;
+        }
+
+        public Builder withSetNumber(String setNumber){
+            newTransfer.setNumber = setNumber;
             return this;
         }
 
@@ -136,16 +137,15 @@ public class Transfer {
         Transfer transfer = (Transfer) o;
         return Objects.equals(getNumber(), transfer.getNumber()) &&
                 Objects.equals(getAction(), transfer.getAction()) &&
-                Objects.equals(getStartDate(), transfer.getStartDate()) &&
-                Objects.equals(getEndDate(), transfer.getEndDate()) &&
+                Objects.equals(getDate(), transfer.getDate()) &&
                 Objects.equals(getExpositionNumber(), transfer.getExpositionNumber()) &&
                 Objects.equals(getFundTakeFrom(), transfer.getFundTakeFrom()) &&
-                Objects.equals(getFundPlaceIn(), transfer.getFundPlaceIn());
+                Objects.equals(getFundPlacedIn(), transfer.getFundPlacedIn());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNumber(), getAction(), getStartDate(), getEndDate(), getExpositionNumber(), getFundTakeFrom(), getFundPlaceIn());
+        return Objects.hash(getNumber(), getAction(), getDate(), getExpositionNumber(), getFundTakeFrom(), getFundPlacedIn());
     }
 
     @Override
@@ -153,11 +153,10 @@ public class Transfer {
         return "Transfer{" +
                 "number='" + number + '\'' +
                 ", action='" + action + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", startDate=" + date +
                 ", expositionNumber='" + expositionNumber + '\'' +
                 ", fundTakeFrom='" + fundTakeFrom + '\'' +
-                ", fundPlaceIn='" + fundPlaceIn + '\'' +
+                ", fundPlaceIn='" + fundPlacedIn + '\'' +
                 '}';
     }
 }

@@ -3,16 +3,13 @@ package view.dialogs;
 import controller.Controller;
 import entity.ExhibitCard;
 import entity.Request;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import util.RequestConverter;
 import util.ResultSetConverter;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +46,16 @@ public class DeleteDialog {
             }
         } else {
             choiceDialog.close();
+            return;
+        }
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm deleting");
+        confirmation.setContentText("Are you sure that you want to delete?");
+        Optional<ButtonType> answer = confirmation.showAndWait();
+        if (answer.isPresent()){
+            if (answer.get().equals(ButtonType.APPLY)){
+
+            }
         }
         Request request = RequestConverter.exhibitToDelete(foundCard);
         try {

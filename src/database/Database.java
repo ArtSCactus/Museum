@@ -111,6 +111,15 @@ public class Database {
         return resultSet;
     }
 
+    public ResultSet executePreparedRequestForColumn(String statementRow, List<Object> args) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(statementRow)) {
+            for (int index = 0; index < args.size(); index++) {
+                statement.setObject(index+1, args.get(index));
+            }
+            return statement.executeQuery();
+        }
+    }
+
     public ResultSet executePreparedRequest (String statementRow) throws SQLException{
         PreparedStatement statement = connection.prepareStatement(statementRow, ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
@@ -207,7 +216,7 @@ public class Database {
            int statementIndex=1;
            for (int index = 0; index < args.size(); index++, statementIndex++) {
                if (args.get(index) == null) {
-                   statementIndex--;
+                   //statementIndex--;
                } else {
                    if (args.get(index).getClass().getName().equals(Date.class.getName())) {
                        Date date = (Date) args.get(index);

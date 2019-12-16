@@ -94,8 +94,8 @@ public class TableComponent {
         createAndInitColumn("Number","number");
         createAndInitColumn("Action","action");
         createAndInitColumn("Exposition number","exposition number");
-        createAndInitColumn("Date of start", "start date");
-        createAndInitColumn("Date of end", "end date");
+        createAndInitColumn("Date", "date");
+        createAndInitColumn("Set/item number", "set number");
         setData(list);
     }
     public void showInternalTransfers(List<Transfer> transfers){
@@ -105,8 +105,18 @@ public class TableComponent {
         createAndInitColumn("Action","action");
         createAndInitColumn("Taken from","fund take from");
         createAndInitColumn("Placed in", "fund placed in");
-        createAndInitColumn("Date", "start date");
+        createAndInitColumn("Date", "date");
+        createAndInitColumn("Set/item number", "set number");
         setData(list);
+    }
+
+    public void showSets(List<Set> sets){
+        table.getColumns().clear();
+        ObservableList<Set> setsList = FXCollections.observableList(sets);
+        createAndInitColumn("Name", "name");
+        createAndInitColumn("Card number", "card number");
+        createAndInitColumn("Annotation", "annotation");
+        setData(setsList);
     }
 
 }

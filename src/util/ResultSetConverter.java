@@ -76,7 +76,8 @@ public class ResultSetConverter {
                     .withAction(resultSet.getString(2))
                     .withFundTakeFrom(resultSet.getString(3))
                     .withFundPlacedIn(resultSet.getString(4))
-                    .withStartDate(resultSet.getDate(5))
+                    .withDate(resultSet.getDate(5))
+                    .withSetNumber(resultSet.getString(6))
                     .build();
             transfers.add(currentTransfer);
         }
@@ -90,11 +91,34 @@ public class ResultSetConverter {
                     .withNumber(resultSet.getString(1))
                     .withAction(resultSet.getString(2))
                     .withExpositionNumber(resultSet.getString(3))
-                    .withStartDate(resultSet.getDate(4))
-                    .withEndDate(resultSet.getDate(5))
+                    .withDate(resultSet.getDate(4))
+                    .withSetNumber(resultSet.getString(5))
                     .build();
             transfers.add(currentTransfer);
         }
         return transfers;
     }
+
+    public static List<Object> columnToList(ResultSet resultSet) throws SQLException {
+        List<Object> rows = new ArrayList<>();
+        while (resultSet.next()) {
+            rows.add(resultSet.getObject(1));
+        }
+        resultSet.close();
+        return rows;
+    }
+
+    public static List<Set> toSets(ResultSet resultSet) throws SQLException {
+        List<Set> sets = new ArrayList<>();
+        while (resultSet.next()) {
+            sets.add(new Set.Builder()
+                    .withName(resultSet.getString(1))
+                    .withCardNumber(resultSet.getString(2))
+                    .withAnnotation(resultSet.getString(3))
+                    .build());
+        }
+        resultSet.close();
+        return sets;
+    }
+
 }

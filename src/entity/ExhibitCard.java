@@ -10,14 +10,17 @@ public class ExhibitCard {
     private Date creationDate;
     private String dateAccuracy;
     private String authorCode;
+    private String setNumber;
 
-    public ExhibitCard(String fund, String name, String id, Date creationDate, String dateAccuracy, String authorCode) {
+    public ExhibitCard(String fund, String name, String id, Date creationDate, String dateAccuracy,
+                       String authorCode, String setNumber) {
         this.fund = fund;
         this.name = name;
         this.id = id;
         this.creationDate = creationDate;
         this.dateAccuracy = dateAccuracy;
         this.authorCode = authorCode;
+        this.setNumber = setNumber;
     }
 
     private ExhibitCard() {
@@ -72,6 +75,14 @@ public class ExhibitCard {
         this.authorCode = authorCode;
     }
 
+    public String getSetNumber() {
+        return setNumber;
+    }
+
+    public void setSetNumber(String setNumber) {
+        this.setNumber = setNumber;
+    }
+
     public static class Builder {
         private ExhibitCard newCard;
 
@@ -109,6 +120,11 @@ public class ExhibitCard {
             return this;
         }
 
+        public Builder withSetNumber(String setNumber){
+            newCard.setNumber = setNumber;
+            return this;
+        }
+
         public ExhibitCard build() {
             return newCard;
         }
@@ -124,12 +140,13 @@ public class ExhibitCard {
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getCreationDate(), that.getCreationDate()) &&
                 Objects.equals(getDateAccuracy(), that.getDateAccuracy()) &&
-                Objects.equals(getAuthorCode(), that.getAuthorCode());
+                Objects.equals(getAuthorCode(), that.getAuthorCode()) &&
+                Objects.equals(setNumber, that.setNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFund(), getName(), getId(), getCreationDate(), getDateAccuracy(), getAuthorCode());
+        return Objects.hash(getFund(), getName(), getId(), getCreationDate(), getDateAccuracy(), getAuthorCode(), setNumber);
     }
 
     @Override

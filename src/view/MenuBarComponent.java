@@ -6,7 +6,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import util.ResultSetConverter;
-import view.TableComponent;
 import view.dialogs.AddDialog;
 import view.dialogs.DeleteDialog;
 import view.dialogs.EditDialog;
@@ -68,7 +67,11 @@ public class MenuBarComponent {
         });
         MenuItem addExpositionItem = new MenuItem("Exposition");
         MenuItem addAuthorItem = new MenuItem("Author");
-        addMenu.getItems().addAll(addExhibitItem, addExpositionItem, addAuthorItem);
+        MenuItem transferItem = new MenuItem("Transfer");
+        transferItem.setOnAction(event -> {
+           new AddDialog().showAddAddTransferDialog(controller);
+        });
+        addMenu.getItems().addAll(addExhibitItem, addExpositionItem, addAuthorItem, transferItem);
     }
 
     private void initEditMenu() {
@@ -78,7 +81,11 @@ public class MenuBarComponent {
         });
         MenuItem editExpositionItem = new MenuItem("Exposition");
         MenuItem editAuthorItem = new MenuItem("Author");
-        editMenu.getItems().addAll(editExhibitItem, editExpositionItem, editAuthorItem);
+        MenuItem editTransfer = new MenuItem("Transfer");
+        editTransfer.setOnAction(event -> {
+            new EditDialog().showEditTransferDialog(controller);
+        });
+        editMenu.getItems().addAll(editExhibitItem, editExpositionItem, editAuthorItem, editTransfer);
     }
 
     private void initRemoveMenu() {
@@ -127,7 +134,7 @@ public class MenuBarComponent {
             List<Transfer> transfers = null;
             try {
                 transfers = ResultSetConverter.toInternalTransfers(
-                        controller.executePreparedRequest("select * from internal_transferes"));
+                        controller.executePreparedRequest("select * from internal_transfers"));
             } catch (SQLException e) {
             }
             table.showInternalTransfers(transfers);
@@ -137,7 +144,7 @@ public class MenuBarComponent {
             List<Transfer> transfers = null;
             try {
                 transfers = ResultSetConverter.toExternalTransfers(
-                        controller.executePreparedRequest("select * from external_transferes"));
+                        controller.executePreparedRequest("select * from external_transfers"));
             } catch (SQLException e) {
             }
             table.showExternalTransfers(transfers);
@@ -149,11 +156,25 @@ public class MenuBarComponent {
                 funds = ResultSetConverter.toFunds(
                         controller.executePreparedRequest("select * from funds"));
             } catch (SQLException e) {
+                e.printStackTrace();
             }
             table.showFunds(funds);
         });
+
+        MenuItem viewSets = new MenuItem("Sets");
+        viewSets.setOnAction(event -> {
+            List<Set> sets = null;
+            try{
+                sets = ResultSetConverter.toSets(
+                        controller.executePreparedRequest("select * from sets")
+                );
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            table.showSets(sets);
+        });
         viewMenu.getItems().addAll(viewExhibitItem, viewExpositionItem, viewAuthorItem, viewInternalTransfers,
-                viewExternalTransfers, viewFundsItem);
+                viewExternalTransfers, viewFundsItem, viewSets);
     }
 
 }
