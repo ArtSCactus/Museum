@@ -9,6 +9,7 @@ import util.ResultSetConverter;
 import view.dialogs.AddDialog;
 import view.dialogs.DeleteDialog;
 import view.dialogs.EditDialog;
+import view.dialogs.SearchDialog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +20,7 @@ public class MenuBarComponent {
     private Menu editMenu;
     private Menu deleteMenu;
     private Menu viewMenu;
+    private Menu searchMenu;
     private TableComponent table;
     private Controller controller;
 
@@ -28,6 +30,7 @@ public class MenuBarComponent {
         editMenu = new Menu("Edit");
         deleteMenu = new Menu("Remove");
         viewMenu = new Menu("View");
+        searchMenu = new Menu("Search ");
         this.table = table;
         this.controller = controller;
         initMenuBar();
@@ -57,7 +60,8 @@ public class MenuBarComponent {
         initEditMenu();
         initRemoveMenu();
         initViewMenu();
-        bar.getMenus().addAll(addMenu, editMenu, deleteMenu, viewMenu);
+        initSearchMenu();
+        bar.getMenus().addAll(addMenu, editMenu, deleteMenu, viewMenu, searchMenu);
     }
 
     private void initAddMenu() {
@@ -126,6 +130,7 @@ public class MenuBarComponent {
                 authors = ResultSetConverter.toAuthors(
                         controller.executePreparedRequest("select * from authors"));
             } catch (SQLException e) {
+                e.printStackTrace();
             }
             table.showAuthors(authors);
         });
@@ -136,6 +141,7 @@ public class MenuBarComponent {
                 transfers = ResultSetConverter.toInternalTransfers(
                         controller.executePreparedRequest("select * from internal_transfers"));
             } catch (SQLException e) {
+                e.printStackTrace();
             }
             table.showInternalTransfers(transfers);
         });
@@ -146,6 +152,8 @@ public class MenuBarComponent {
                 transfers = ResultSetConverter.toExternalTransfers(
                         controller.executePreparedRequest("select * from external_transfers"));
             } catch (SQLException e) {
+                e.printStackTrace();
+
             }
             table.showExternalTransfers(transfers);
         });
@@ -175,6 +183,14 @@ public class MenuBarComponent {
         });
         viewMenu.getItems().addAll(viewExhibitItem, viewExpositionItem, viewAuthorItem, viewInternalTransfers,
                 viewExternalTransfers, viewFundsItem, viewSets);
+    }
+
+    private void initSearchMenu(){
+        MenuItem exhibitSearchItem = new MenuItem("Last exhibit/set placement");
+        exhibitSearchItem.setOnAction(event -> {
+            new SearchDialog().showSearchExhibitDialog(controller);
+        });
+        searchMenu.getItems().addAll(exhibitSearchItem);
     }
 
 }

@@ -71,7 +71,7 @@ public class TableComponent {
         table.getColumns().clear();
         ObservableList<Exposition> list = FXCollections.observableList(expositions);
         createAndInitColumn("Number", "Number");
-        createAndInitColumn("Name", "Name");
+        createAndInitColumn("Name", "org name");
         createAndInitColumn("Address", "Address");
         createAndInitColumn("Contact person", "contact person");
         createAndInitColumn("Phone number", "phone number");
@@ -94,6 +94,16 @@ public class TableComponent {
         createAndInitColumn("Number","number");
         createAndInitColumn("Action","action");
         createAndInitColumn("Exposition number","exposition number");
+        createAndInitColumn("Date", "date");
+        createAndInitColumn("Set/item number", "set number");
+        setData(list);
+    }
+
+    public void showCommonTransfers(List<Transfer> transfers){
+        table.getColumns().clear();
+        ObservableList<Transfer> list = FXCollections.observableList(transfers);
+        createAndInitColumn("Number","number");
+        createAndInitColumn("Action","action");
         createAndInitColumn("Date", "date");
         createAndInitColumn("Set/item number", "set number");
         setData(list);

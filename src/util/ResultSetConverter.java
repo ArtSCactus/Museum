@@ -99,6 +99,20 @@ public class ResultSetConverter {
         return transfers;
     }
 
+    public static List<Transfer> toCommonTransfers(ResultSet resultSet) throws SQLException {
+        List<Transfer> transfers = new ArrayList<>();
+        while(resultSet.next()){
+            Transfer currentTransfer = new Transfer.Builder()
+                    .withNumber(resultSet.getString(1))
+                    .withAction(resultSet.getString(2))
+                    .withDate(resultSet.getDate(3))
+                    .withSetNumber(resultSet.getString(4))
+                    .build();
+            transfers.add(currentTransfer);
+        }
+        return transfers;
+    }
+
     public static List<Object> columnToList(ResultSet resultSet) throws SQLException {
         List<Object> rows = new ArrayList<>();
         while (resultSet.next()) {
@@ -121,4 +135,18 @@ public class ResultSetConverter {
         return sets;
     }
 
+    /*public static List<Transfer> toTransfersFull(ResultSet resultSet) throws SQLException {
+        List<Transfer> transfers = new ArrayList<>();
+        while (resultSet.next()){
+            Transfer currentTransfer = new Transfer.Builder()
+                    .withNumber(resultSet.getString(1))
+                    .withAction(resultSet.getString(2))
+                    .withExpositionNumber(resultSet.getString(3))
+                    .withDate(resultSet.getDate(4))
+                    .withSetNumber(resultSet.getString(5))
+                    .build();
+            transfers.add(currentTransfer);
+        }
+    }
+*/
 }

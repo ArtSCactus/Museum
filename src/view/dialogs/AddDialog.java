@@ -209,7 +209,6 @@ public class AddDialog {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         });
 
         addBtn.setMinWidth(pane.getPrefWidth());
